@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/andrewpersaud1/Climate-change-vs-human-health/main/datasets/heat-deaths_fig-1-real.csv"
+  },
+  "vconcat": [
+    {
+      "width": 480,
+      "mark": "area",
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal",
+          "scale": {"domain": {"param": "brush"}},
+          "axis": {"title": "Year"}
+        },
+        "y": {
+          "field": "Underlying cause of death annual",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "width": 480,
+      "height": 60,
+      "mark": "area",
+      "params": [
+        {"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}
+      ],
+      "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {
+          "field": "Underlying and contributing causes of death",
+          "type": "quantitative",
+          "axis": {"tickCount": 3, "grid": false}
+        }
+      }
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
